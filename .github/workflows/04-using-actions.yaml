@@ -11,5 +11,15 @@ jobs:
         steps:
             - name: Checkout code
               uses: actions/checkout@v6
-            - name: Printing Folders
-              run: ls
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                node-version: '25'
+            - name: Install dependencies
+              run: npm install
+              working-directory: 04-using-actions/react-app
+            - name: Run tests
+              run: npm test
+              working-directory: 04-using-actions/react-app
+            
+            
