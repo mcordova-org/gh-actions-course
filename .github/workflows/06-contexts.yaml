@@ -1,5 +1,7 @@
 name: 06 - Contexts
 
+run-name: My custom workflow run name - ${{ runner.os }}
+
 on:
     workflow_dispatch:
 
@@ -21,4 +23,3 @@ jobs:
             - name: Retrieve Variable
               run: |
                 echo "The value of MY_VAR is: ${{ vars.MY_VAR || 'Not set' }}"
-                
