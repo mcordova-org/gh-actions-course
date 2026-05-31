@@ -8,6 +8,21 @@ jobs:
   echo1:
     runs-on: ubuntu-latest
     steps:
+      - name: Print PR Title
+        run: |
+          echo "The PR title is: ${{ github.event.pull_request.title }}"
+      - name: Print PR labels
+        run: |
+          cat << EOF
+          ${{ toJson(github.event.pull_request.labels) }}
+          EOF
+      - name: Bug step
+        # should be execute if any previous steps have failed 
+        # (but not if the workflow has been cancelled))
+        # and if the PR title contains the word "fix"
+        if: ${{ !cancelled() && contains(github.event.pull_request.title, 'fix') }}
+        run: |
+          echo "I am a bug fix"
       - name: Sleep for 20 seconds
         run: sleep 20
       - name: Failing Step
@@ -15,6 +30,7 @@ jobs:
         run: |
           exit 1
       - name: I will be skipped
+        if: ${{ success() }}
         run: echo "I will print if previous steps succeed"
       - name: I will execute
         #should be executed only if any of the previous steps have failed
